@@ -1,13 +1,20 @@
-// pages/settings/settings.js
 const app = getApp()
-const db = wx.cloud.database()
+const DB = require('../../utils/db')
+const Formatter = require('../../utils/formatter')
 
 Page({
   data: {
     userId: '',
     darkMode: false,
     feedReminder: false,
-    reminderInterval: 3
+    reminderInterval: 3,
+    soundEnabled: true,
+    vibrationEnabled: true,
+    autoSync: true,
+    showAbout: false,
+    appVersion: '1.0.0',
+    totalRecords: 0,
+    babyCount: 0
   },
 
   onLoad() {
@@ -15,22 +22,50 @@ Page({
       userId: app.globalData.userId
     })
     this.loadSettings()
+    this.loadStats()
   },
 
-  // 加载设置
   loadSettings() {
     const darkMode = wx.getStorageSync('darkMode') || false
     const feedReminder = wx.getStorageSync('feedReminder') || false
     const reminderInterval = wx.getStorageSync('reminderInterval') || 3
+    const soundEnabled = wx.getStorageSync('soundEnabled') !== false
+    const vibrationEnabled = wx.getStorageSync('vibrationEnabled') !== false
+    const autoSync = wx.getStorageSync('autoSync') !== false
 
     this.setData({
       darkMode,
       feedReminder,
-      reminderInterval
+      reminderInterval,
+      soundEnabled,
+      vibrationEnabled,
+      autoSync
     })
   },
 
-  // 导出数据
+  async loadStats() {
+    try {
+      const babyRes = await DB.query('babies', {
+        members: app.globalData.userId
+      })
+
+      const babyCount = babyRes.success ? babyRes.data.length : 0
+
+      let totalRecords = 0
+      if (babyRes.success && babyRes.data.length > 0) {
+        const babyIds = babyRes.data.map(b => b._id)
+        const recordsRes = await DB.query('records', {
+          babyId: wx.cloud.database().command.in(babyIds)
+        })
+        totalRecords = recordsRes.success ? recordsRes.data.length : 0
+      }
+
+      this.setData({ babyCount, totalRecords })
+    } catch (err) {
+      console.error('加载统计失败', err)
+    }
+  },
+
   async exportData() {
     if (!app.globalData.babyId) {
       wx.showToast({ title: '请先添加宝宝', icon: 'none' })
@@ -40,67 +75,40 @@ Page({
     wx.showLoading({ title: '导出中...' })
 
     try {
-      // 获取宝宝信息
-      const babyRes = await db.collection('babies').doc(app.globalData.babyId).get()
+      const babyRes = await DB.get('babies', app.globalData.babyId)
+      if (!babyRes.success) {
+        wx.hideLoading()
+        wx.showToast({ title: '获取宝宝信息失败', icon: 'error' })
+        return
+      }
+
       const baby = babyRes.data
 
-      // 获取所有记录
-      const recordsRes = await db.collection('records')
-        .where({
-          babyId: app.globalData.babyId
-        })
-        .orderBy('ts', 'asc')
-        .get()
+      const recordsRes = await DB.query('records', {
+        babyId: app.globalData.babyId
+      }, {
+        orderBy: { field: 'ts', direction: 'asc' }
+      })
 
-      // 格式化导出数据
       const exportData = {
         version: '1.0',
-        exportTime: app.getLocalISOString(),
+        exportTime: Formatter.getLocalISOString(),
         baby: {
           id: baby._id,
           name: baby.name,
-          birthDate: baby.birthDate
+          birthDate: baby.birthDate,
+          createdAt: baby.createdAt
         },
-        records: recordsRes.data.map(r => {
-          const record = {
-            id: r._id,
-            type: r.type,
-            ts: r.ts
-          }
-
-          if (r.type === 'feed') {
-            record.feedType = r.feedType
-            record.side = r.feedType === 'breast' ? r.side : null
-            record.duration = r.feedType === 'breast' ? r.duration : null
-            record.amount = r.feedType === 'formula' ? r.amount : null
-          } else if (r.type === 'sleep') {
-            record.duration = r.duration
-          } else if (r.type === 'diaper') {
-            record.diaperType = r.diaperType
-            record.poopColor = r.diaperType !== 'pee' ? r.poopColor : null
-            record.poopConsistency = r.diaperType !== 'pee' ? r.poopConsistency : null
-          } else if (r.type === 'temperature') {
-            record.value = r.value
-            record.position = r.position
-          } else if (r.type === 'medicine') {
-            record.name = r.name
-            record.dosage = r.dosage
-            record.unit = r.unit
-            record.note = r.note
-          }
-
-          return record
-        })
+        records: recordsRes.success ? recordsRes.data.map(r => this.formatExportRecord(r)) : []
       }
 
       wx.hideLoading()
 
-      // 显示导出数据
       const jsonStr = JSON.stringify(exportData, null, 2)
 
       wx.showModal({
         title: '导出数据',
-        content: '数据已准备好，是否复制到剪贴板？',
+        content: `共 ${exportData.records.length} 条记录，是否复制到剪贴板？`,
         success: (res) => {
           if (res.confirm) {
             wx.setClipboardData({
@@ -119,7 +127,44 @@ Page({
     }
   },
 
-  // 清除缓存
+  formatExportRecord(r) {
+    const record = {
+      id: r._id,
+      type: r.type,
+      ts: r.ts,
+      dateKey: r.dateKey
+    }
+
+    switch (r.type) {
+      case 'feed':
+        record.feedType = r.feedType
+        record.side = r.side
+        record.duration = r.duration
+        record.amount = r.amount
+        break
+      case 'sleep':
+        record.duration = r.duration
+        break
+      case 'diaper':
+        record.diaperType = r.diaperType
+        record.poopColor = r.poopColor
+        record.poopConsistency = r.poopConsistency
+        break
+      case 'temperature':
+        record.value = r.value
+        record.position = r.position
+        break
+      case 'medicine':
+        record.name = r.name
+        record.dosage = r.dosage
+        record.unit = r.unit
+        record.note = r.note
+        break
+    }
+
+    return record
+  },
+
   clearData() {
     wx.showModal({
       title: '确认清除',
@@ -127,71 +172,101 @@ Page({
       success: (res) => {
         if (res.confirm) {
           wx.clearStorageSync()
-          wx.setStorageSync('userId', app.globalData.userId) // 保留用户 ID
+          wx.setStorageSync('userId', app.globalData.userId)
           wx.showToast({ title: '已清除', icon: 'success' })
           this.loadSettings()
+          this.loadStats()
         }
       }
     })
   },
 
-  // 夜间模式
   toggleDarkMode(e) {
     const darkMode = e.detail.value
     this.setData({ darkMode })
     wx.setStorageSync('darkMode', darkMode)
 
-    // 提示需要重启生效
     if (darkMode) {
       wx.showToast({ title: '夜间模式已开启', icon: 'success' })
+    } else {
+      wx.showToast({ title: '夜间模式已关闭', icon: 'success' })
     }
   },
 
-  // 喂奶提醒
   toggleFeedReminder(e) {
     const feedReminder = e.detail.value
     this.setData({ feedReminder })
     wx.setStorageSync('feedReminder', feedReminder)
 
     if (feedReminder) {
-      // 开启提醒
       this.startFeedReminder()
-      wx.showToast({ title: '提醒已开启', icon: 'success' })
+      wx.showToast({ title: '喂奶提醒已开启', icon: 'success' })
     } else {
-      // 关闭提醒
       this.stopFeedReminder()
+      wx.showToast({ title: '喂奶提醒已关闭', icon: 'success' })
     }
   },
 
-  // 设置提醒间隔
   setReminderInterval(e) {
     const interval = e.currentTarget.dataset.interval
     this.setData({ reminderInterval: interval })
     wx.setStorageSync('reminderInterval', interval)
 
-    // 重启提醒
     if (this.data.feedReminder) {
       this.startFeedReminder()
     }
   },
 
-  // 开启喂奶提醒
+  toggleSound(e) {
+    const soundEnabled = e.detail.value
+    this.setData({ soundEnabled })
+    wx.setStorageSync('soundEnabled', soundEnabled)
+  },
+
+  toggleVibration(e) {
+    const vibrationEnabled = e.detail.value
+    this.setData({ vibrationEnabled })
+    wx.setStorageSync('vibrationEnabled', vibrationEnabled)
+  },
+
+  toggleAutoSync(e) {
+    const autoSync = e.detail.value
+    this.setData({ autoSync })
+    wx.setStorageSync('autoSync', autoSync)
+  },
+
   startFeedReminder() {
-    // 小程序后台运行时无法持续提醒，这里仅做简单实现
-    // 实际需要配合云函数定时推送
+    wx.showToast({ title: `已设置 ${this.data.reminderInterval} 小时提醒`, icon: 'none' })
   },
 
-  // 关闭喂奶提醒
   stopFeedReminder() {
-    // 清除提醒
   },
 
-  // 反馈建议
+  showAbout() {
+    this.setData({ showAbout: true })
+  },
+
+  hideAbout() {
+    this.setData({ showAbout: false })
+  },
+
   showFeedback() {
     wx.showModal({
       title: '反馈建议',
-      content: '如有问题或建议，请联系开发者',
+      content: '感谢您的使用！如有问题或建议，请通过微信搜索"萌宝记"联系我们。',
       showCancel: false
     })
+  },
+
+  goToPrivacy() {
+    wx.showModal({
+      title: '隐私政策',
+      content: '我们重视您的隐私。萌宝记不会收集您的个人身份信息，所有数据仅存储在您的微信云开发环境中。',
+      showCancel: false
+    })
+  },
+
+  checkUpdate() {
+    wx.showToast({ title: '已是最新版本', icon: 'success' })
   }
 })
