@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/baby/baby",
     "pages/settings/settings",
-    "pages/history/history"
+    "pages/history/history",
+    "pages/privacy/privacy"
   ],
   "window": {
     "navigationBarTitleText": "萌宝记",

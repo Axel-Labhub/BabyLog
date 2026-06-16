@@ -252,11 +252,7 @@ Page({
   },
 
   goToPrivacy() {
-    wx.showModal({
-      title: '隐私政策',
-      content: '我们重视您的隐私。萌宝记不会收集您的个人身份信息，所有数据仅存储在您的微信云开发环境中。',
-      showCancel: false
-    })
+    wx.navigateTo({ url: '/pages/privacy/privacy' })
   },
 
   checkUpdate() {

@@ -1,0 +1,104 @@
+<view class="page">
+  <view class="header">
+    <text class="title">隐私政策</text>
+    <text class="subtitle">萌宝记 - 宝宝成长记录小程序</text>
+  </view>
+
+  <scroll-view class="content" scroll-y>
+    <view class="section">
+      <text class="section-title">一、介绍</text>
+      <text class="section-content">
+        萌宝记是一款专门为新手父母设计的宝宝成长记录工具。我们深知保护您和宝宝隐私的重要性，因此制定本隐私政策，旨在说明我们如何收集、使用、存储和保护您的个人信息。
+      </text>
+    </view>
+
+    <view class="section">
+      <text class="section-title">二、信息收集</text>
+      <text class="section-content">
+        我们仅收集您主动提供的必要信息：
+      </text>
+      <view class="list">
+        <text class="list-item">• 宝宝信息：包括宝宝昵称、出生日期、性别等</text>
+        <text class="list-item">• 成长记录：包括喂奶、睡眠、换尿布、体温等记录数据</text>
+        <text class="list-item">• 用户标识：系统自动生成的匿名用户ID，用于识别您的记录</text>
+        <text class="list-item">• 设备信息：为确保功能正常运行，我们可能获取设备唯一标识</text>
+      </view>
+    </view>
+
+    <view class="section">
+      <text class="section-title">三、信息使用</text>
+      <text class="section-content">
+        我们收集的信息仅用于以下目的：
+      </text>
+      <view class="list">
+        <text class="list-item">• 提供和维护小程序的核心功能</text>
+        <text class="list-item">• 数据同步和备份，确保您的记录不会丢失</text>
+        <text class="list-item">• 生成宝宝成长统计和分析报告</text>
+        <text class="list-item">• 发送喂奶提醒等个性化通知</text>
+      </view>
+    </view>
+
+    <view class="section">
+      <text class="section-title">四、信息保护</text>
+      <text class="section-content">
+        我们采用多种安全措施保护您的信息：
+      </text>
+      <view class="list">
+        <text class="list-item">• 数据存储在腾讯云安全服务器中</text>
+        <text class="list-item">• 传输过程采用SSL/TLS加密</text>
+        <text class="list-item">• 严格的访问控制，仅授权人员可访问</text>
+        <text class="list-item">• 定期进行安全审计和漏洞检测</text>
+      </view>
+    </view>
+
+    <view class="section">
+      <text class="section-title">五、用户权利</text>
+      <text class="section-content">
+        您拥有以下权利：
+      </text>
+      <view class="list">
+        <text class="list-item">• 访问和查看您的所有记录数据</text>
+        <text class="list-item">• 导出您的记录数据为JSON文件</text>
+        <text class="list-item">• 删除您的所有数据</text>
+        <text class="list-item">• 随时停止使用本小程序</text>
+      </view>
+    </view>
+
+    <view class="section">
+      <text class="section-title">六、第三方服务</text>
+      <text class="section-content">
+        本小程序使用以下第三方服务：
+      </text>
+      <view class="list">
+        <text class="list-item">• 腾讯云开发：提供数据库、存储和云函数服务</text>
+        <text class="list-item">• 微信小程序框架：提供基础运行环境</text>
+      </view>
+      <text class="section-content">
+        这些第三方服务也有各自的隐私政策，请您仔细阅读。
+      </text>
+    </view>
+
+    <view class="section">
+      <text class="section-title">七、政策更新</text>
+      <text class="section-content">
+        我们可能会不时更新本隐私政策。当政策发生重大变更时，我们会通过小程序内通知告知您。请定期查看本政策。
+      </text>
+    </view>
+
+    <view class="section">
+      <text class="section-title">八、联系方式</text>
+      <text class="section-content">
+        如果您对本隐私政策有任何疑问或建议，请通过小程序内的"反馈建议"功能联系我们。
+      </text>
+    </view>
+
+    <view class="footer">
+      <text class="footer-text">最后更新日期：2026年6月</text>
+      <text class="footer-text">版本：V1.0</text>
+    </view>
+  </scroll-view>
+
+  <view class="footer-bar">
+    <button class="back-btn" bindtap="goBack">返回</button>
+  </view>
+</view>
