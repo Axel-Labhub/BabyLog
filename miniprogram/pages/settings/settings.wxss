@@ -21,6 +21,40 @@
   color: var(--text);
 }
 
+/* 数据统计 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28rpx;
+  background-color: var(--card);
+  border-radius: 16rpx;
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-icon {
+  font-size: 40rpx;
+  margin-bottom: 12rpx;
+}
+
+.stat-value {
+  font-size: 48rpx;
+  font-weight: 600;
+  color: var(--feed);
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: var(--text2);
+}
+
 /* 设置列表 */
 .setting-list {
   background-color: var(--card);

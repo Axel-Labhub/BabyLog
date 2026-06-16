@@ -5,7 +5,8 @@ App({
   globalData: {
     babyId: null,
     babyInfo: null,
-    userId: null
+    userId: null,
+    reminderTimer: null
   },
 
   onLaunch: async function (options) {
@@ -29,6 +30,70 @@ App({
       }
     } else {
       this.restoreLastBaby()
+    }
+
+    this.startFeedReminderCheck()
+  },
+
+  onShow: function () {
+    this.startFeedReminderCheck()
+  },
+
+  onHide: function () {
+    this.stopFeedReminderCheck()
+  },
+
+  startFeedReminderCheck() {
+    this.stopFeedReminderCheck()
+    this.globalData.reminderTimer = setInterval(() => {
+      this.checkFeedReminder()
+    }, 60000)
+    this.checkFeedReminder()
+  },
+
+  stopFeedReminderCheck() {
+    if (this.globalData.reminderTimer) {
+      clearInterval(this.globalData.reminderTimer)
+      this.globalData.reminderTimer = null
+    }
+  },
+
+  async checkFeedReminder() {
+    const feedReminder = wx.getStorageSync('feedReminder')
+    if (!feedReminder || !this.globalData.babyId) return
+
+    const reminderInterval = wx.getStorageSync('reminderInterval') || 3
+    const intervalMs = reminderInterval * 60 * 60 * 1000
+
+    try {
+      const res = await DB.query('records', {
+        babyId: this.globalData.babyId,
+        type: 'feed'
+      }, {
+        orderBy: { field: 'ts', direction: 'desc' },
+        limit: 1
+      })
+
+      if (!res.success || res.data.length === 0) return
+
+      const lastFeed = res.data[0]
+      const lastFeedTime = new Date(lastFeed.ts).getTime()
+      const now = Date.now()
+
+      if (now - lastFeedTime >= intervalMs) {
+        const lastRemind = wx.getStorageSync('lastFeedRemindTime')
+        if (!lastRemind || now - lastRemind >= intervalMs) {
+          wx.showModal({
+            title: '喂奶提醒',
+            content: `宝宝已经${reminderInterval}小时没有吃奶了，该喂奶啦！`,
+            showCancel: false,
+            confirmText: '知道了'
+          })
+          wx.setStorageSync('lastFeedRemindTime', now)
+        }
+      }
+    } catch (err) {
+      console.error('检查喂奶提醒失败', err)
     }
   },
 

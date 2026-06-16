@@ -199,10 +199,10 @@ Page({
     wx.setStorageSync('feedReminder', feedReminder)
 
     if (feedReminder) {
-      this.startFeedReminder()
-      wx.showToast({ title: '喂奶提醒已开启', icon: 'success' })
+      app.startFeedReminderCheck()
+      wx.showToast({ title: `已设置 ${this.data.reminderInterval} 小时提醒`, icon: 'success' })
     } else {
-      this.stopFeedReminder()
+      app.stopFeedReminderCheck()
       wx.showToast({ title: '喂奶提醒已关闭', icon: 'success' })
     }
   },
@@ -213,7 +213,7 @@ Page({
     wx.setStorageSync('reminderInterval', interval)
 
     if (this.data.feedReminder) {
-      this.startFeedReminder()
+      app.startFeedReminderCheck()
     }
   },
 
@@ -233,13 +233,6 @@ Page({
     const autoSync = e.detail.value
     this.setData({ autoSync })
     wx.setStorageSync('autoSync', autoSync)
-  },
-
-  startFeedReminder() {
-    wx.showToast({ title: `已设置 ${this.data.reminderInterval} 小时提醒`, icon: 'none' })
-  },
-
-  stopFeedReminder() {
   },
 
   showAbout() {
@@ -267,6 +260,29 @@ Page({
   },
 
   checkUpdate() {
-    wx.showToast({ title: '已是最新版本', icon: 'success' })
+    wx.showLoading({ title: '检查更新...' })
+
+    const updateManager = wx.getUpdateManager()
+    updateManager.onCheckForUpdate((res) => {
+      wx.hideLoading()
+      if (res.hasUpdate) {
+        updateManager.onUpdateReady(() => {
+          wx.showModal({
+            title: '更新提示',
+            content: '发现新版本，是否立即更新？',
+            success: (modalRes) => {
+              if (modalRes.confirm) {
+                updateManager.applyUpdate()
+              }
+            }
+          })
+        })
+        updateManager.onUpdateFailed(() => {
+          wx.showToast({ title: '更新失败', icon: 'error' })
+        })
+      } else {
+        wx.showToast({ title: '已是最新版本', icon: 'success' })
+      }
+    })
   }
 })

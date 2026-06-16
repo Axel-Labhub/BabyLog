@@ -1,5 +1,24 @@
 <!--pages/settings/settings.wxml-->
 <view class="page">
+  <!-- 数据统计 -->
+  <view class="section stats-section">
+    <view class="section-header">
+      <text class="section-title">数据统计</text>
+    </view>
+    <view class="stats-grid">
+      <view class="stat-card">
+        <text class="stat-icon">👶</text>
+        <text class="stat-value">{{babyCount}}</text>
+        <text class="stat-label">宝宝数量</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-icon">📝</text>
+        <text class="stat-value">{{totalRecords}}</text>
+        <text class="stat-label">总记录数</text>
+      </view>
+    </view>
+  </view>
+
   <!-- 数据管理 -->
   <view class="section">
     <view class="section-header">
@@ -43,7 +62,7 @@
         <view class="setting-icon">🔔</view>
         <view class="setting-content">
           <text class="setting-name">喂奶提醒</text>
-          <text class="setting-desc">超过3小时未喂奶时提醒</text>
+          <text class="setting-desc">超过{{reminderInterval}}小时未喂奶时提醒</text>
         </view>
         <switch checked="{{feedReminder}}" bindchange="toggleFeedReminder" color="#FF9500" />
       </view>
@@ -71,6 +90,48 @@
     </view>
   </view>
 
+  <!-- 声音与震动 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">声音与震动</text>
+    </view>
+    <view class="setting-list">
+      <view class="setting-item">
+        <view class="setting-icon">🔊</view>
+        <view class="setting-content">
+          <text class="setting-name">提示音</text>
+          <text class="setting-desc">记录完成时播放提示音</text>
+        </view>
+        <switch checked="{{soundEnabled}}" bindchange="toggleSound" color="#FF9500" />
+      </view>
+      <view class="setting-item">
+        <view class="setting-icon">📳</view>
+        <view class="setting-content">
+          <text class="setting-name">震动反馈</text>
+          <text class="setting-desc">记录完成时震动反馈</text>
+        </view>
+        <switch checked="{{vibrationEnabled}}" bindchange="toggleVibration" color="#FF9500" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 其他设置 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">其他设置</text>
+    </view>
+    <view class="setting-list">
+      <view class="setting-item">
+        <view class="setting-icon">☁️</view>
+        <view class="setting-content">
+          <text class="setting-name">自动同步</text>
+          <text class="setting-desc">自动同步数据到云端</text>
+        </view>
+        <switch checked="{{autoSync}}" bindchange="toggleAutoSync" color="#FF9500" />
+      </view>
+    </view>
+  </view>
+
   <!-- 关于 -->
   <view class="section">
     <view class="section-header">
@@ -84,11 +145,27 @@
           <text class="setting-desc">V2.1 小程序版</text>
         </view>
       </view>
+      <view class="setting-item" bindtap="checkUpdate">
+        <view class="setting-icon">🔄</view>
+        <view class="setting-content">
+          <text class="setting-name">检查更新</text>
+          <text class="setting-desc">检查是否有新版本</text>
+        </view>
+        <text class="setting-arrow">›</text>
+      </view>
       <view class="setting-item" bindtap="showFeedback">
         <view class="setting-icon">💬</view>
         <view class="setting-content">
           <text class="setting-name">反馈建议</text>
           <text class="setting-desc">帮助我们改进产品</text>
+        </view>
+        <text class="setting-arrow">›</text>
+      </view>
+      <view class="setting-item" bindtap="goToPrivacy">
+        <view class="setting-icon">🔒</view>
+        <view class="setting-content">
+          <text class="setting-name">隐私政策</text>
+          <text class="setting-desc">了解我们的隐私保护</text>
         </view>
         <text class="setting-arrow">›</text>
       </view>
