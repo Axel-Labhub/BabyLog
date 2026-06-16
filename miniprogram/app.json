@@ -6,7 +6,7 @@
     "pages/history/history"
   ],
   "window": {
-    "navigationBarTitleText": "宝宝记录",
+    "navigationBarTitleText": "萌宝记",
     "navigationBarBackgroundColor": "#FAFBFB",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#FAFBFB",
