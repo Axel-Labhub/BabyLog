@@ -1,0 +1,113 @@
+/* components/chart-line/chart-line.wxss */
+.chart-card {
+  background-color: var(--card);
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: var(--shadow-sm);
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28rpx;
+}
+
+.chart-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.chart-subtitle {
+  font-size: 24rpx;
+  color: var(--text3);
+}
+
+.chart-body {
+  display: flex;
+  height: 300rpx;
+}
+
+.chart-y-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 16rpx;
+  width: 60rpx;
+}
+
+.y-label {
+  font-size: 20rpx;
+  color: var(--text3);
+  text-align: right;
+}
+
+.chart-area {
+  flex: 1;
+  position: relative;
+}
+
+.chart-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 40rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.grid-line {
+  height: 1rpx;
+  background-color: var(--border-light);
+}
+
+.chart-line-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.chart-svg {
+  width: 100%;
+  height: calc(100% - 40rpx);
+}
+
+.line {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.area {
+}
+
+.chart-points {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.point-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.point-label {
+  font-size: 18rpx;
+  color: var(--text3);
+}
+
+.point-value {
+  font-size: 20rpx;
+  color: var(--text2);
+  margin-top: 4rpx;
+}

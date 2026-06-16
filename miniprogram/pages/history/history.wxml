@@ -45,6 +45,23 @@
     </view>
   </view>
 
+  <view class="charts-section">
+    <chart-bar 
+      title="喂奶次数趋势" 
+      subtitle="本周" 
+      :data="feedChartData" 
+      color="#FF9500" 
+      unit="次"
+    />
+    <chart-line 
+      title="睡眠时长趋势" 
+      subtitle="本周" 
+      :data="sleepChartData" 
+      color="#8B5CF6" 
+      unit="分"
+    />
+  </view>
+
   <view class="daily-list">
     <view class="day-section" wx:for="{{dailyRecords}}" wx:key="date">
       <view class="day-header">

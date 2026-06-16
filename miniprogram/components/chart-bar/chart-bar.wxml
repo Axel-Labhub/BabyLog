@@ -1,0 +1,28 @@
+<view class="chart-card">
+  <view class="chart-header">
+    <text class="chart-title">{{title}}</text>
+    <text class="chart-subtitle">{{subtitle}}</text>
+  </view>
+  
+  <view class="chart-body">
+    <view class="chart-y-axis">
+      <text wx:for="{{yLabels}}" class="y-label">{{item}}</text>
+    </view>
+    
+    <view class="chart-area">
+      <view class="chart-grid">
+        <view wx:for="{{gridLines}}" class="grid-line"></view>
+      </view>
+      
+      <view class="chart-bars">
+        <view wx:for="{{chartData}}" wx:key="date" class="bar-item">
+          <view class="bar-wrapper">
+            <view class="bar" style="height: {{item.height}}%; background-color: {{color}};"></view>
+          </view>
+          <text class="bar-label">{{item.label}}</text>
+          <text class="bar-value">{{item.value}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

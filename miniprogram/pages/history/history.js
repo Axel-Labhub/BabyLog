@@ -17,6 +17,8 @@ Page({
       medCount: 0
     },
     dailyRecords: [],
+    feedChartData: [],
+    sleepChartData: [],
     loading: false
   },
 
@@ -198,7 +200,9 @@ Page({
           diaperCount: weekStats.diaperCount,
           tempCount: weekStats.tempCount,
           medCount: weekStats.medCount
-        }
+        },
+        feedChartData: this.generateChartData(dailyMap, 'feedCount'),
+        sleepChartData: this.generateChartData(dailyMap, 'sleepDuration')
       })
     } catch (err) {
       console.error('加载记录失败', err)
@@ -223,6 +227,31 @@ Page({
     } else {
       wx.showToast({ title: '删除失败', icon: 'error' })
     }
+  },
+
+  generateChartData(dailyMap, field) {
+    const startDate = new Date(this.data.startKey)
+    const chartData = []
+
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(startDate)
+      date.setDate(startDate.getDate() + i)
+      const dateKey = Formatter.getDateKey(date)
+      const dayData = dailyMap[dateKey]
+
+      let value = 0
+      if (dayData) {
+        if (field === 'feedCount') {
+          value = dayData.stats.feedCount
+        } else if (field === 'sleepDuration') {
+          value = Math.round(dayData.stats.sleepDuration / 60)
+        }
+      }
+
+      chartData.push({ date: dateKey, value })
+    }
+
+    return chartData
   },
 
   initDarkMode() {

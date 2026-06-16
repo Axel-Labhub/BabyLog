@@ -1,0 +1,46 @@
+<view class="chart-card">
+  <view class="chart-header">
+    <text class="chart-title">{{title}}</text>
+    <text class="chart-subtitle">{{subtitle}}</text>
+  </view>
+  
+  <view class="chart-body">
+    <view class="chart-y-axis">
+      <text wx:for="{{yLabels}}" class="y-label">{{item}}</text>
+    </view>
+    
+    <view class="chart-area">
+      <view class="chart-grid">
+        <view wx:for="{{gridLines}}" class="grid-line"></view>
+      </view>
+      
+      <view class="chart-line-container">
+        <svg class="chart-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:{{color}};stop-opacity:0.3" />
+              <stop offset="100%" style="stop-color:{{color}};stop-opacity:0" />
+            </linearGradient>
+          </defs>
+          <path class="area" :d="areaPath" fill="url(#lineGradient)" />
+          <path class="line" :d="linePath" stroke="{{color}}" stroke-width="2" fill="none" />
+          <circle 
+            wx:for="{{points}}" 
+            wx:key="index"
+            :cx="item.x" 
+            :cy="item.y" 
+            r="3" 
+            fill="{{color}}"
+          />
+        </svg>
+        
+        <view class="chart-points">
+          <view wx:for="{{dataPoints}}" wx:key="date" class="point-item">
+            <text class="point-label">{{item.label}}</text>
+            <text class="point-value">{{item.value}}{{unit}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
