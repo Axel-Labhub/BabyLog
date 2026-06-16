@@ -22,6 +22,14 @@
                 "envVariables": {},
                 "runtime": "Nodejs18.19"
               }
+            },
+            {
+              "name": "feedback",
+              "config": {
+                "timeout": 3,
+                "envVariables": {},
+                "runtime": "Nodejs18.19"
+              }
             }
           ]
         }

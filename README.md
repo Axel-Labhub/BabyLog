@@ -41,6 +41,7 @@
 | 功能 | 说明 | 状态 |
 |------|------|------|
 | 历史统计 | 按周查看，自动汇总每日数据 | ✅ 已完成 |
+| 趋势图表 | 喂奶次数/睡眠时长趋势图 | ✅ 已完成 |
 | 数据导出 | 一键导出 JSON 格式数据 | ✅ 已完成 |
 | 云端存储 | 数据存储在云开发数据库 | ✅ 已完成 |
 
@@ -48,8 +49,11 @@
 
 | 功能 | 说明 | 状态 |
 |------|------|------|
-| 夜间模式 | 深色主题切换 | 🔄 开发中 |
-| 喂奶提醒 | 自定义提醒间隔 | 🔄 开发中 |
+| 🌙 夜间模式 | 深色主题切换 | ✅ 已完成 |
+| 🔔 喂奶提醒 | 自定义提醒间隔（2/3/4小时） | ✅ 已完成 |
+| 🔊 提示音 | 记录完成时播放提示音 | ✅ 已完成 |
+| 📳 震动反馈 | 记录完成时震动反馈 | ✅ 已完成 |
+| ☁️ 自动同步 | 自动同步数据到云端 | ✅ 已完成 |
 
 ---
 
@@ -133,37 +137,52 @@ BabyLog/
 ├── miniprogram/              # 小程序前端代码
 │   ├── app.js               # 应用入口，全局状态管理
 │   ├── app.json             # 应用配置，页面路由，tabBar
-│   ├── app.wxss             # 全局样式
+│   ├── app.wxss             # 全局样式（含夜间模式）
 │   ├── sitemap.json          # SEO 配置
 │   ├── assets/
 │   │   └── icons/           # tabBar 图标资源
+│   ├── components/          # 自定义组件
+│   │   ├── chart-bar/       # 📊 柱状图组件
+│   │   └── chart-line/      # 📈 折线图组件
+│   ├── utils/               # 工具类
+│   │   ├── db.js            # 数据库操作封装
+│   │   └── formatter.js     # 数据格式化工具
 │   └── pages/
 │       ├── index/           # 📝 记录主页
 │       │   ├── index.js     # 喂奶、睡眠、尿布、体温、用药逻辑
 │       │   ├── index.wxml   # 页面结构
 │       │   └── index.wxss   # 页面样式
 │       ├── history/         # 📅 历史记录
-│       │   ├── history.js   # 按周统计、每日汇总
+│       │   ├── history.js   # 按周统计、每日汇总、图表数据
 │       │   ├── history.wxml # 页面结构
 │       │   └── history.wxss # 页面样式
 │       ├── baby/             # 👶 宝宝管理
 │       │   ├── baby.js      # 创建、编辑、删除宝宝，生成小程序码
 │       │   ├── baby.wxml    # 宝宝信息、成员管理
 │       │   └── baby.wxss    # 页面样式
-│       └── settings/         # ⚙️ 设置
-│           ├── settings.js   # 数据导出、清除缓存、主题设置
-│           ├── settings.wxml # 设置项列表
-│           └── settings.wxss # 页面样式
+│       ├── settings/         # ⚙️ 设置
+│       │   ├── settings.js   # 数据导出、清除缓存、主题设置、反馈
+│       │   ├── settings.wxml # 设置项列表
+│       │   └── settings.wxss # 页面样式
+│       └── privacy/          # 🔒 隐私政策
+│           ├── privacy.js    # 隐私政策页面
+│           ├── privacy.wxml  # 页面结构
+│           └── privacy.wxss  # 页面样式
 ├── cloudfunctions/           # 云函数
-│   └── getQRCode/           # 生成带场景值的小程序码
+│   ├── getQRCode/           # 生成带场景值的小程序码
+│   │   ├── index.js         # 云函数入口
+│   │   └── package.json     # 依赖配置
+│   └── feedback/            # 用户反馈收集
 │       ├── index.js         # 云函数入口
-│       └── package.json     # 依赖配置
+│       ├── package.json     # 依赖配置
+│       └── config.json      # 云函数配置
 ├── scripts/                  # 工具脚本
 │   └── init-database.js     # 数据库初始化脚本
 ├── .trae/                   # Trae IDE 配置
 │   └── mcp.json             # CloudBase MCP 配置
 ├── cloudbaserc.json         # CloudBase Framework 配置
 ├── project.config.json      # 微信小程序项目配置
+├── database-rules.md        # 📖 数据库权限规则文档
 ├── DATABASE.md              # 📖 数据库结构详细文档
 └── README.md                # 项目说明文档
 ```
