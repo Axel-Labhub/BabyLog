@@ -264,3 +264,84 @@
   <text>{{toastMessage}}</text>
   <text class="toast-undo" wx:if="{{undoRid}}" bindtap="undoRecord">撤销</text>
 </view>
+
+<!-- 体温弹窗 -->
+<view class="modal-overlay {{showTempModal ? '' : 'hidden'}}" bindtap="hideTempModal">
+  <view class="modal-content" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">体温记录</text>
+    </view>
+    <view class="modal-body">
+      <text class="modal-label">请输入体温 (°C)</text>
+      <input class="modal-input" type="digit" placeholder="如：36.5" value="{{tempValue}}"
+             bindinput="onTempInput" focus="{{showTempModal}}" />
+
+      <text class="modal-label">测量位置</text>
+      <view class="temp-positions">
+        <view class="temp-pos {{tempPosition === 'forehead' ? 'active' : ''}}"
+              bindtap="selectTempPosition" data-pos="forehead">
+          <text>额温</text>
+        </view>
+        <view class="temp-pos {{tempPosition === 'ear' ? 'active' : ''}}"
+              bindtap="selectTempPosition" data-pos="ear">
+          <text>耳温</text>
+        </view>
+        <view class="temp-pos {{tempPosition === 'armpit' ? 'active' : ''}}"
+              bindtap="selectTempPosition" data-pos="armpit">
+          <text>腋温</text>
+        </view>
+        <view class="temp-pos {{tempPosition === 'anus' ? 'active' : ''}}"
+              bindtap="selectTempPosition" data-pos="anus">
+          <text>肛温</text>
+        </view>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn cancel" bindtap="hideTempModal">取消</view>
+      <view class="modal-btn confirm" bindtap="confirmTemp">确定</view>
+    </view>
+  </view>
+</view>
+
+<!-- 用药弹窗 -->
+<view class="modal-overlay {{showMedModal ? '' : 'hidden'}}" bindtap="hideMedModal">
+  <view class="modal-content" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">用药记录</text>
+    </view>
+    <view class="modal-body">
+      <text class="modal-label">药品名称</text>
+      <input class="modal-input" placeholder="如：退烧药" value="{{medName}}"
+             bindinput="onMedNameInput" focus="{{showMedModal}}" />
+
+      <view class="dosage-row">
+        <view class="dosage-input-wrap">
+          <text class="modal-label">剂量</text>
+          <input class="modal-input" type="digit" placeholder="如：5" value="{{medDosage}}"
+                 bindinput="onMedDosageInput" />
+        </view>
+        <view class="unit-wrap">
+          <text class="modal-label">单位</text>
+          <view class="unit-options">
+            <view class="unit-opt {{medUnit === 'ml' ? 'active' : ''}}"
+                  bindtap="selectMedUnit" data-unit="ml">ml</view>
+            <view class="unit-opt {{medUnit === 'mg' ? 'active' : ''}}"
+                  bindtap="selectMedUnit" data-unit="mg">mg</view>
+            <view class="unit-opt {{medUnit === 'g' ? 'active' : ''}}"
+                  bindtap="selectMedUnit" data-unit="g">g</view>
+            <view class="unit-opt {{medUnit === '袋' ? 'active' : ''}}"
+                  bindtap="selectMedUnit" data-unit="袋">袋</view>
+          </view>
+        </view>
+      </view>
+
+      <text class="modal-label">备注 (可选)</text>
+      <input class="modal-input" placeholder="如：饭后服用" value="{{medNote}}"
+             bindinput="onMedNoteInput" />
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn cancel" bindtap="hideMedModal">取消</view>
+      <view class="modal-btn confirm" bindtap="confirmMed">确定</view>
+    </view>
+  </view>
+</view>

@@ -54,9 +54,14 @@ Page({
 
       // 格式化导出数据
       const exportData = {
-        n: baby.name,
-        bd: baby.birthDate,
-        rs: recordsRes.data.map(r => {
+        version: '1.0',
+        exportTime: app.getLocalISOString(),
+        baby: {
+          id: baby._id,
+          name: baby.name,
+          birthDate: baby.birthDate
+        },
+        records: recordsRes.data.map(r => {
           const record = {
             id: r._id,
             type: r.type,
@@ -64,16 +69,24 @@ Page({
           }
 
           if (r.type === 'feed') {
-            record.ft = r.feedType
+            record.feedType = r.feedType
             record.side = r.feedType === 'breast' ? r.side : null
-            record.dur = r.feedType === 'breast' ? r.duration : null
-            record.amt = r.feedType === 'formula' ? r.amount : null
+            record.duration = r.feedType === 'breast' ? r.duration : null
+            record.amount = r.feedType === 'formula' ? r.amount : null
           } else if (r.type === 'sleep') {
-            record.dur = r.duration
+            record.duration = r.duration
           } else if (r.type === 'diaper') {
-            record.dt = r.diaperType
-            record.pc = r.diaperType !== 'pee' ? r.poopColor : null
-            record.ps = r.diaperType !== 'pee' ? r.poopConsistency : null
+            record.diaperType = r.diaperType
+            record.poopColor = r.diaperType !== 'pee' ? r.poopColor : null
+            record.poopConsistency = r.diaperType !== 'pee' ? r.poopConsistency : null
+          } else if (r.type === 'temperature') {
+            record.value = r.value
+            record.position = r.position
+          } else if (r.type === 'medicine') {
+            record.name = r.name
+            record.dosage = r.dosage
+            record.unit = r.unit
+            record.note = r.note
           }
 
           return record

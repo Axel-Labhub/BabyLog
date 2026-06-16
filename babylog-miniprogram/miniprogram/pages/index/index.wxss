@@ -629,3 +629,66 @@
   font-weight: 500;
   margin-left: 8rpx;
 }
+
+/* 体温弹窗 */
+.temp-positions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-top: 16rpx;
+}
+
+.temp-pos {
+  flex: 1;
+  min-width: 140rpx;
+  padding: 20rpx 16rpx;
+  text-align: center;
+  background: var(--bg-2);
+  border: 2rpx solid transparent;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: var(--text-2);
+  transition: all 0.2s;
+}
+
+.temp-pos.active {
+  background: #FFF3E5;
+  border-color: var(--feed);
+  color: var(--feed);
+  font-weight: 500;
+}
+
+/* 用药弹窗 */
+.dosage-row {
+  display: flex;
+  gap: 24rpx;
+  align-items: flex-start;
+}
+
+.dosage-input-wrap,
+.unit-wrap {
+  flex: 1;
+}
+
+.unit-options {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 16rpx;
+  flex-wrap: wrap;
+}
+
+.unit-opt {
+  padding: 16rpx 20rpx;
+  background: var(--bg-2);
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  color: var(--text-2);
+  border: 2rpx solid transparent;
+}
+
+.unit-opt.active {
+  background: #E8F4FF;
+  border-color: var(--sleep);
+  color: var(--sleep);
+  font-weight: 500;
+}

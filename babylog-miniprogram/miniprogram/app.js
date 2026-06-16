@@ -19,9 +19,15 @@ App({
     this.initUserId()
 
     // 处理扫码进入
-    if (options.scene) {
-      const babyId = decodeURIComponent(options.scene)
-      this.joinBaby(babyId)
+    if (options && options.scene) {
+      try {
+        const babyId = decodeURIComponent(options.scene)
+        if (babyId) {
+          this.joinBaby(babyId)
+        }
+      } catch (err) {
+        console.error('解析扫码参数失败', err)
+      }
     } else {
       // 恢复上次选择的宝宝
       this.restoreLastBaby()
@@ -30,6 +36,8 @@ App({
 
   // 加入宝宝（扫码进入）
   async joinBaby(babyId) {
+    if (!babyId) return
+
     const db = wx.cloud.database()
 
     try {
@@ -37,11 +45,17 @@ App({
       const res = await db.collection('babies').doc(babyId).get()
       const baby = res.data
 
+      if (!baby) {
+        wx.showToast({ title: '宝宝信息不存在', icon: 'none' })
+        return
+      }
+
       if (baby.members && baby.members.includes(this.globalData.userId)) {
         // 已加入，直接设置
         this.globalData.babyId = babyId
         this.globalData.babyInfo = baby
         wx.setStorageSync('currentBabyId', babyId)
+        wx.showToast({ title: `已切换到 ${baby.name}`, icon: 'success' })
       } else {
         // 未加入，添加到成员列表
         await db.collection('babies').doc(babyId).update({
@@ -49,9 +63,10 @@ App({
             members: db.command.push(this.globalData.userId)
           }
         })
-
+        // 重新获取最新数据
+        const newRes = await db.collection('babies').doc(babyId).get()
         this.globalData.babyId = babyId
-        this.globalData.babyInfo = baby
+        this.globalData.babyInfo = newRes.data
         wx.setStorageSync('currentBabyId', babyId)
 
         wx.showToast({
@@ -61,6 +76,7 @@ App({
       }
     } catch (err) {
       console.error('加入宝宝失败', err)
+      wx.showToast({ title: '加入失败', icon: 'error' })
     }
   },
 
@@ -158,5 +174,21 @@ App({
     const min = d.getMinutes().toString().padStart(2, '0')
     const s = d.getSeconds().toString().padStart(2, '0')
     return `${y}-${m}-${day}T${h}:${min}:${s}`
+  },
+
+  // 全局错误处理
+  onError: function (err) {
+    console.error('全局错误:', err)
+  },
+
+  // 安全的异步调用包装，自动处理异常
+  async safeCall(fn, errorMsg = '操作失败') {
+    try {
+      return await fn()
+    } catch (err) {
+      console.error(errorMsg, err)
+      wx.showToast({ title: errorMsg, icon: 'none' })
+      return null
+    }
   }
 })

@@ -45,6 +45,18 @@ Page({
     poopConsistency: '软',
     showQuickFeedModal: false,
 
+    // 体温弹窗
+    showTempModal: false,
+    tempValue: '',
+    tempPosition: 'forehead',
+
+    // 用药弹窗
+    showMedModal: false,
+    medName: '',
+    medDosage: '',
+    medUnit: 'ml',
+    medNote: '',
+
     // Toast
     showToast: false,
     toastMessage: '',
@@ -177,6 +189,15 @@ Page({
         if (r.diaperType !== 'pee') {
           item.detail = `${r.poopColor || ''} ${r.poopConsistency || ''}`.trim()
         }
+      } else if (r.type === 'temperature') {
+        item.icon = '🌡️'
+        item.title = '体温'
+        const posMap = { forehead: '额温', ear: '耳温', armpit: '腋温', anus: '肛温' }
+        item.detail = `${r.value}°C ${posMap[r.position] || ''}`.trim()
+      } else if (r.type === 'medicine') {
+        item.icon = '💊'
+        item.title = `用药 ${r.name || ''}`.trim()
+        item.detail = `${r.dosage || ''}${r.unit || ''} ${r.note || ''}`.trim()
       }
 
       return item
@@ -572,12 +593,138 @@ Page({
       itemList: ['体温记录', '用药记录'],
       success: (res) => {
         if (res.tapIndex === 0) {
-          wx.showToast({ title: '体温记录开发中', icon: 'none' })
+          this.showTempModal()
         } else if (res.tapIndex === 1) {
-          wx.showToast({ title: '用药记录开发中', icon: 'none' })
+          this.showMedModal()
         }
       }
     })
+  },
+
+  // 体温记录
+  showTempModal() {
+    if (!app.globalData.babyId) {
+      wx.showToast({ title: '请先添加宝宝', icon: 'none' })
+      return
+    }
+    this.setData({
+      showTempModal: true,
+      tempValue: '',
+      tempPosition: 'forehead'
+    })
+  },
+
+  hideTempModal() {
+    this.setData({ showTempModal: false })
+  },
+
+  onTempInput(e) {
+    this.setData({ tempValue: e.detail.value })
+  },
+
+  selectTempPosition(e) {
+    this.setData({ tempPosition: e.currentTarget.dataset.pos })
+  },
+
+  async confirmTemp() {
+    const value = parseFloat(this.data.tempValue)
+    if (isNaN(value) || value < 30 || value > 45) {
+      wx.showToast({ title: '请输入有效体温(30-45°C)', icon: 'none' })
+      return
+    }
+
+    if (!app.globalData.babyId) return
+
+    const record = {
+      babyId: app.globalData.babyId,
+      userId: app.globalData.userId,
+      type: 'temperature',
+      value: value,
+      position: this.data.tempPosition,
+      ts: app.getLocalISOString(),
+      dateKey: this.data.currentDate
+    }
+
+    try {
+      const res = await db.collection('records').add({ data: record })
+      this.setData({ showTempModal: false })
+      this.showToast(`已记录 🌡️ ${value}°C`, res._id)
+      this.loadRecords()
+    } catch (err) {
+      console.error('保存体温失败', err)
+      wx.showToast({ title: '保存失败', icon: 'error' })
+    }
+  },
+
+  // 用药记录
+  showMedModal() {
+    if (!app.globalData.babyId) {
+      wx.showToast({ title: '请先添加宝宝', icon: 'none' })
+      return
+    }
+    this.setData({
+      showMedModal: true,
+      medName: '',
+      medDosage: '',
+      medUnit: 'ml',
+      medNote: ''
+    })
+  },
+
+  hideMedModal() {
+    this.setData({ showMedModal: false })
+  },
+
+  onMedNameInput(e) {
+    this.setData({ medName: e.detail.value })
+  },
+
+  onMedDosageInput(e) {
+    this.setData({ medDosage: e.detail.value })
+  },
+
+  onMedNoteInput(e) {
+    this.setData({ medNote: e.detail.value })
+  },
+
+  selectMedUnit(e) {
+    this.setData({ medUnit: e.currentTarget.dataset.unit })
+  },
+
+  async confirmMed() {
+    const { medName, medDosage, medUnit, medNote } = this.data
+    if (!medName.trim()) {
+      wx.showToast({ title: '请输入药品名称', icon: 'none' })
+      return
+    }
+    if (!medDosage.trim()) {
+      wx.showToast({ title: '请输入剂量', icon: 'none' })
+      return
+    }
+
+    if (!app.globalData.babyId) return
+
+    const record = {
+      babyId: app.globalData.babyId,
+      userId: app.globalData.userId,
+      type: 'medicine',
+      name: medName.trim(),
+      dosage: medDosage.trim(),
+      unit: medUnit,
+      note: medNote.trim(),
+      ts: app.getLocalISOString(),
+      dateKey: this.data.currentDate
+    }
+
+    try {
+      const res = await db.collection('records').add({ data: record })
+      this.setData({ showMedModal: false })
+      this.showToast(`已记录 💊 ${medName.trim()}`, res._id)
+      this.loadRecords()
+    } catch (err) {
+      console.error('保存用药失败', err)
+      wx.showToast({ title: '保存失败', icon: 'error' })
+    }
   },
 
   // 删除记录

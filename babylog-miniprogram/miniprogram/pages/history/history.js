@@ -213,6 +213,15 @@ Page({
       if (r.diaperType !== 'pee') {
         item.detail = `${r.poopColor || ''} ${r.poopConsistency || ''}`.trim()
       }
+    } else if (r.type === 'temperature') {
+      item.icon = '🌡️'
+      item.title = '体温'
+      const posMap = { forehead: '额温', ear: '耳温', armpit: '腋温', anus: '肛温' }
+      item.detail = `${r.value}°C ${posMap[r.position] || ''}`.trim()
+    } else if (r.type === 'medicine') {
+      item.icon = '💊'
+      item.title = `用药 ${r.name || ''}`.trim()
+      item.detail = `${r.dosage || ''}${r.unit || ''} ${r.note || ''}`.trim()
     }
 
     return item
