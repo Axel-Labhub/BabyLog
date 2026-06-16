@@ -53,6 +53,7 @@ Page({
 
   onLoad() {
     this.initDate()
+    this.initDarkMode()
   },
 
   onShow() {
@@ -704,6 +705,13 @@ Page({
         this.startSleepTimer()
       }
       wx.removeStorageSync('sleepTimerState')
+    }
+  },
+
+  initDarkMode() {
+    const darkMode = wx.getStorageSync('darkMode') || false
+    if (darkMode) {
+      this.setStyle({ className: 'dark' })
     }
   }
 })

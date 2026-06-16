@@ -25,6 +25,7 @@ Page({
     this.setData({
       today: Formatter.getDateKey(new Date())
     })
+    this.initDarkMode()
   },
 
   onShow() {
@@ -343,6 +344,13 @@ Page({
       })
     } catch (err) {
       console.error('保存小程序码失败', err)
+    }
+  },
+
+  initDarkMode() {
+    const darkMode = wx.getStorageSync('darkMode') || false
+    if (darkMode) {
+      this.setStyle({ className: 'dark' })
     }
   }
 })

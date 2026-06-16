@@ -36,6 +36,37 @@ page {
   -webkit-font-smoothing: antialiased;
 }
 
+page.dark {
+  --primary: #FF9500;
+  --primary-light: rgba(255, 149, 0, 0.15);
+  --primary-dark: #FFB800;
+  --feed: #FF9500;
+  --sleep: #A78BFA;
+  --sleep-light: rgba(139, 92, 246, 0.15);
+  --pee: #60A5FA;
+  --pee-light: rgba(59, 130, 246, 0.15);
+  --poop: #D4A574;
+  --poop-light: rgba(212, 165, 116, 0.15);
+  --temp: #F87171;
+  --temp-light: rgba(239, 68, 68, 0.15);
+  --medicine: #34D399;
+  --medicine-light: rgba(16, 185, 129, 0.15);
+  --text: #F5F5F5;
+  --text2: #B0B0B0;
+  --text3: #6B6B6B;
+  --text4: #4A4A4A;
+  --bg: #1A1A1A;
+  --card: #2D2D2D;
+  --border: #3D3D3D;
+  --border-light: #2A2A2A;
+  --danger: #F87171;
+  --success: #34D399;
+  --warning: #FBBF24;
+  --shadow-sm: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4rpx 16rpx rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8rpx 32rpx rgba(0, 0, 0, 0.5);
+}
+
 .container {
   padding: 24rpx;
   box-sizing: border-box;

@@ -23,6 +23,7 @@ Page({
     })
     this.loadSettings()
     this.loadStats()
+    this.initDarkMode()
   },
 
   loadSettings() {
@@ -186,9 +187,13 @@ Page({
     this.setData({ darkMode })
     wx.setStorageSync('darkMode', darkMode)
 
+    const pages = getCurrentPages()
+    const page = pages[pages.length - 1]
     if (darkMode) {
+      page.setStyle({ className: 'dark' })
       wx.showToast({ title: '夜间模式已开启', icon: 'success' })
     } else {
+      page.setStyle({ className: '' })
       wx.showToast({ title: '夜间模式已关闭', icon: 'success' })
     }
   },
@@ -246,8 +251,32 @@ Page({
   showFeedback() {
     wx.showModal({
       title: '反馈建议',
-      content: '感谢您的使用！如有问题或建议，请通过微信搜索"萌宝记"联系我们。',
-      showCancel: false
+      editable: true,
+      placeholderText: '请输入您的问题或建议...',
+      success: async (res) => {
+        if (res.confirm && res.content && res.content.trim()) {
+          wx.showLoading({ title: '提交中...' })
+          try {
+            const result = await wx.cloud.callFunction({
+              name: 'feedback',
+              data: {
+                content: res.content.trim(),
+                userId: app.globalData.userId
+              }
+            })
+            wx.hideLoading()
+            if (result.result && result.result.success) {
+              wx.showToast({ title: '反馈提交成功', icon: 'success' })
+            } else {
+              wx.showToast({ title: '提交失败', icon: 'error' })
+            }
+          } catch (err) {
+            wx.hideLoading()
+            console.error('提交反馈失败', err)
+            wx.showToast({ title: '提交失败，请重试', icon: 'error' })
+          }
+        }
+      }
     })
   },
 
@@ -280,5 +309,12 @@ Page({
         wx.showToast({ title: '已是最新版本', icon: 'success' })
       }
     })
+  },
+
+  initDarkMode() {
+    const darkMode = wx.getStorageSync('darkMode') || false
+    if (darkMode) {
+      this.setStyle({ className: 'dark' })
+    }
   }
 })

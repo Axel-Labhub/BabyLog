@@ -22,6 +22,7 @@ Page({
 
   onLoad() {
     this.initWeek()
+    this.initDarkMode()
   },
 
   onShow() {
@@ -221,6 +222,13 @@ Page({
       this.loadRecords()
     } else {
       wx.showToast({ title: '删除失败', icon: 'error' })
+    }
+  },
+
+  initDarkMode() {
+    const darkMode = wx.getStorageSync('darkMode') || false
+    if (darkMode) {
+      this.setStyle({ className: 'dark' })
     }
   }
 })
