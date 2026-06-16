@@ -37,7 +37,7 @@
     "showES6CompileOption": false,
     "minifyWXML": true
   },
-  "appid": "your-app-id",
+  "appid": "", // 在微信公众平台获取小程序 AppID 后填写
   "projectname": "babylog",
   "description": "宝宝记录 - 新生儿日常记录工具",
   "cloudfunctionTemplateRoot": "",
