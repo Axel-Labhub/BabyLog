@@ -1,0 +1,31 @@
+{
+  "envId": "your-cloud-env-id",
+  "version": "2.0",
+  "framework": {
+    "plugins": {
+      "client": {
+        "use": "@cloudbase/framework-plugin-miniprogram",
+        "inputs": {
+          "miniprogramRootPath": "./miniprogram",
+          "outputPath": ".cloudbase/miniprogram"
+        }
+      },
+      "functions": {
+        "use": "@cloudbase/framework-plugin-function",
+        "inputs": {
+          "functionRootPath": "./cloudfunctions",
+          "functions": [
+            {
+              "name": "getQRCode",
+              "config": {
+                "timeout": 5,
+                "envVariables": {},
+                "runtime": "Nodejs18.19"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

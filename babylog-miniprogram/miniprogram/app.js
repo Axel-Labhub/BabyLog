@@ -10,7 +10,7 @@ App({
     // 初始化云开发
     if (wx.cloud) {
       wx.cloud.init({
-        env: 'your-cloud-env-id', // 替换为你的云开发环境 ID
+        env: '', // 在云开发控制台获取环境 ID 后填写
         traceUser: true
       })
     }
