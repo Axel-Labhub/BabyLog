@@ -1,0 +1,182 @@
+/* app.wxss - 全局样式 */
+
+/* 色彩变量 */
+page {
+  --feed: #FF9500;
+  --sleep: #8B5CF6;
+  --pee: #3B82F6;
+  --poop: #D4A574;
+  --text: #1A1A1A;
+  --text2: #888888;
+  --text3: #BBBBBB;
+  --bg: #FAFBFB;
+  --card: #FFFFFF;
+  --border: #EEEEEE;
+  --danger: #EF4444;
+  --success: #10B981;
+
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+  font-size: 28rpx;
+  color: var(--text);
+  background-color: var(--bg);
+  min-height: 100vh;
+}
+
+/* 通用容器 */
+.container {
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+/* 卡片样式 */
+.card {
+  background-color: var(--card);
+  border-radius: 24rpx;
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+/* 按钮基础样式 */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn:active {
+  transform: scale(0.96);
+  opacity: 0.8;
+}
+
+.btn-primary {
+  background-color: var(--feed);
+  color: white;
+}
+
+.btn-secondary {
+  background-color: var(--bg);
+  color: var(--text);
+  border: 2rpx solid var(--border);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: white;
+}
+
+/* 图标按钮 */
+.icon-btn {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+}
+
+/* 文本样式 */
+.text-primary { color: var(--text); }
+.text-secondary { color: var(--text2); }
+.text-weak { color: var(--text3); }
+.text-feed { color: var(--feed); }
+.text-sleep { color: var(--sleep); }
+.text-pee { color: var(--pee); }
+.text-poop { color: var(--poop); }
+
+/* 弹性布局 */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-center { align-items: center; justify-content: center; }
+.flex-between { justify-content: space-between; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+
+/* 间距 */
+.mt-1 { margin-top: 8rpx; }
+.mt-2 { margin-top: 16rpx; }
+.mt-3 { margin-top: 24rpx; }
+.mb-1 { margin-bottom: 8rpx; }
+.mb-2 { margin-bottom: 16rpx; }
+.mb-3 { margin-bottom: 24rpx; }
+.ml-1 { margin-left: 8rpx; }
+.mr-1 { margin-right: 8rpx; }
+.p-1 { padding: 8rpx; }
+.p-2 { padding: 16rpx; }
+.p-3 { padding: 24rpx; }
+
+/* 分割线 */
+.divider {
+  height: 1rpx;
+  background-color: var(--border);
+  margin: 24rpx 0;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 48rpx;
+  color: var(--text3);
+}
+
+.empty-state .icon {
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
+}
+
+.empty-state .text {
+  font-size: 28rpx;
+}
+
+/* 加载状态 */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48rpx;
+  color: var(--text3);
+}
+
+/* Toast 样式 */
+.toast {
+  position: fixed;
+  bottom: 200rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 20rpx 40rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  z-index: 1000;
+  animation: toastIn 0.3s ease;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(40rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* 呼吸灯动画 */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.pulse {
+  animation: pulse 1.5s infinite;
+}

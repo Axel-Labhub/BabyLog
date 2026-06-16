@@ -1,0 +1,105 @@
+/* pages/settings/settings.wxss */
+
+.page {
+  min-height: 100vh;
+  background-color: var(--bg);
+  padding: 24rpx;
+}
+
+/* 区块 */
+.section {
+  margin-bottom: 32rpx;
+}
+
+.section-header {
+  margin-bottom: 16rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* 设置列表 */
+.setting-list {
+  background-color: var(--card);
+  border-radius: 16rpx;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  border-bottom: 1rpx solid var(--border);
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-icon {
+  font-size: 32rpx;
+  margin-right: 16rpx;
+}
+
+.setting-content {
+  flex: 1;
+}
+
+.setting-name {
+  font-size: 28rpx;
+  color: var(--text);
+}
+
+.setting-desc {
+  font-size: 24rpx;
+  color: var(--text2);
+  margin-top: 4rpx;
+}
+
+.setting-arrow {
+  font-size: 32rpx;
+  color: var(--text3);
+}
+
+/* 间隔选项 */
+.interval-options {
+  display: flex;
+  gap: 16rpx;
+}
+
+.interval-option {
+  flex: 1;
+  padding: 24rpx;
+  text-align: center;
+  background-color: var(--card);
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: var(--text);
+  border: 2rpx solid var(--border);
+}
+
+.interval-option.active {
+  border-color: var(--feed);
+  background-color: rgba(255, 149, 0, 0.08);
+  color: var(--feed);
+}
+
+/* 用户信息 */
+.user-info {
+  padding: 24rpx;
+  background-color: var(--card);
+  border-radius: 16rpx;
+}
+
+.user-id {
+  font-size: 24rpx;
+  color: var(--text2);
+  margin-bottom: 8rpx;
+}
+
+.user-hint {
+  font-size: 22rpx;
+  color: var(--text3);
+}

@@ -1,0 +1,186 @@
+<!--pages/baby/baby.wxml-->
+<view class="page">
+  <!-- 当前宝宝 -->
+  <view class="section" wx:if="{{currentBaby}}">
+    <view class="section-header">
+      <text class="section-title">当前宝宝</text>
+    </view>
+    <view class="baby-card">
+      <view class="baby-avatar">
+        <text class="avatar-icon">👶</text>
+      </view>
+      <view class="baby-info">
+        <text class="baby-name">{{currentBaby.name}}</text>
+        <text class="baby-birth">{{currentBaby.birthDate}} · 出生 {{babyAge}} 天</text>
+      </view>
+      <view class="baby-actions">
+        <view class="action-edit" bindtap="editBaby">编辑</view>
+      </view>
+    </view>
+
+    <!-- 小程序码分享 -->
+    <view class="share-section">
+      <view class="share-card" bindtap="showQRCode">
+        <view class="share-icon">📱</view>
+        <view class="share-content">
+          <text class="share-title">分享小程序码</text>
+          <text class="share-desc">家人扫码即可加入，共同记录宝宝日常</text>
+        </view>
+        <text class="share-arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 成员列表 -->
+    <view class="members-section" wx:if="{{members.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">共同记录者</text>
+        <text class="member-count">{{members.length}} 人</text>
+      </view>
+      <view class="member-list">
+        <view class="member-item" wx:for="{{members}}" wx:key="userId">
+          <view class="member-avatar">
+            <text>{{item.isOwner ? '👑' : '👤'}}</text>
+          </view>
+          <view class="member-info">
+            <text class="member-name">{{item.nickname || '匿名用户'}}</text>
+            <text class="member-role">{{item.isOwner ? '创建者' : '成员'}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 无宝宝时显示 -->
+  <view class="empty-section" wx:else>
+    <view class="empty-content">
+      <text class="empty-icon">👶</text>
+      <text class="empty-title">还没有添加宝宝</text>
+      <text class="empty-desc">创建宝宝档案，开始记录日常</text>
+      <view class="empty-actions">
+        <view class="btn-create" bindtap="createBaby">创建宝宝</view>
+        <view class="btn-join" bindtap="showJoinModal">加入已有宝宝</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 其他宝宝列表 -->
+  <view class="section" wx:if="{{otherBabies.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">其他宝宝</text>
+    </view>
+    <view class="baby-list">
+      <view class="baby-item" wx:for="{{otherBabies}}" wx:key="_id" bindtap="switchBaby" data-id="{{item._id}}">
+        <view class="baby-avatar">
+          <text class="avatar-icon">👶</text>
+        </view>
+        <view class="baby-info">
+          <text class="baby-name">{{item.name}}</text>
+          <text class="baby-birth">{{item.birthDate}}</text>
+        </view>
+        <text class="switch-arrow">›</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 创建宝宝弹窗 -->
+<view class="modal-overlay {{showCreateModal ? '' : 'hidden'}}" bindtap="hideCreateModal">
+  <view class="modal-content" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">创建宝宝档案</text>
+    </view>
+    <view class="modal-body">
+      <view class="form-item">
+        <text class="form-label">宝宝姓名</text>
+        <input class="form-input" placeholder="如：沐沐" value="{{newBabyName}}"
+               bindinput="onBabyNameInput" />
+      </view>
+      <view class="form-item">
+        <text class="form-label">出生日期</text>
+        <picker mode="date" value="{{newBabyBirth}}" start="2020-01-01" end="{{today}}"
+                bindchange="onBabyBirthChange">
+          <view class="form-picker">
+            <text class="picker-value">{{newBabyBirth || '请选择日期'}}</text>
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn cancel" bindtap="hideCreateModal">取消</view>
+      <view class="modal-btn confirm" bindtap="confirmCreate">创建</view>
+    </view>
+  </view>
+</view>
+
+<!-- 编辑宝宝弹窗 -->
+<view class="modal-overlay {{showEditModal ? '' : 'hidden'}}" bindtap="hideEditModal">
+  <view class="modal-content" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">编辑宝宝信息</text>
+    </view>
+    <view class="modal-body">
+      <view class="form-item">
+        <text class="form-label">宝宝姓名</text>
+        <input class="form-input" placeholder="如：沐沐" value="{{editBabyName}}"
+               bindinput="onEditBabyNameInput" />
+      </view>
+      <view class="form-item">
+        <text class="form-label">出生日期</text>
+        <picker mode="date" value="{{editBabyBirth}}" start="2020-01-01" end="{{today}}"
+                bindchange="onEditBabyBirthChange">
+          <view class="form-picker">
+            <text class="picker-value">{{editBabyBirth || '请选择日期'}}</text>
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn delete" bindtap="deleteBaby">删除宝宝</view>
+      <view class="modal-btn cancel" bindtap="hideEditModal">取消</view>
+      <view class="modal-btn confirm" bindtap="confirmEdit">保存</view>
+    </view>
+  </view>
+</view>
+
+<!-- 加入宝宝弹窗 -->
+<view class="modal-overlay {{showJoinModal ? '' : 'hidden'}}" bindtap="hideJoinModal">
+  <view class="modal-content" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">加入已有宝宝</text>
+    </view>
+    <view class="modal-body">
+      <text class="modal-hint">请家人分享小程序码，扫码即可加入</text>
+      <view class="qr-hint">
+        <text class="qr-icon">📱</text>
+        <text class="qr-text">使用微信扫一扫功能</text>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn cancel" bindtap="hideJoinModal">关闭</view>
+    </view>
+  </view>
+</view>
+
+<!-- 小程序码弹窗 -->
+<view class="modal-overlay {{showQRModal ? '' : 'hidden'}}" bindtap="hideQRModal">
+  <view class="modal-content qr-modal" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">分享小程序码</text>
+    </view>
+    <view class="modal-body">
+      <view class="qr-container">
+        <image class="qr-image" src="{{qrCodeUrl}}" mode="aspectFit" wx:if="{{qrCodeUrl}}" />
+        <view class="qr-loading" wx:else>
+          <text>正在生成小程序码...</text>
+        </view>
+      </view>
+      <text class="qr-hint">家人扫码即可加入，共同记录宝宝日常</text>
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn cancel" bindtap="hideQRModal">关闭</view>
+      <view class="modal-btn confirm" bindtap="saveQRCode">保存图片</view>
+    </view>
+  </view>
+</view>

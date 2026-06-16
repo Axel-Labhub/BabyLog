@@ -1,0 +1,266 @@
+<!--pages/index/index.wxml-->
+<view class="page">
+  <!-- 宝宝信息栏 -->
+  <view class="baby-bar" bindtap="goToBaby">
+    <view class="baby-info" wx:if="{{babyInfo}}">
+      <text class="baby-name">{{babyInfo.name}}</text>
+      <text class="baby-age">出生 {{babyAge}} 天</text>
+    </view>
+    <view class="baby-info" wx:else>
+      <text class="baby-name text-weak">点击添加宝宝</text>
+    </view>
+    <text class="arrow">›</text>
+  </view>
+
+  <!-- 日期导航 -->
+  <view class="date-nav">
+    <view class="date-btn" bindtap="prevDay">
+      <text>‹</text>
+    </view>
+    <view class="date-text" bindtap="showDatePicker">
+      <text>{{formattedDate}}</text>
+    </view>
+    <view class="date-btn" bindtap="nextDay">
+      <text>›</text>
+    </view>
+  </view>
+
+  <!-- 喂奶计时器 -->
+  <view class="timer-card feed-timer {{feedRunning ? '' : 'hidden'}}">
+    <view class="timer-header">
+      <text class="timer-icon">🍼</text>
+      <text class="timer-title">喂奶中</text>
+      <text class="timer-side">{{feedSide === 'left' ? '左侧' : '右侧'}}</text>
+    </view>
+    <view class="timer-display pulse">
+      <text class="timer-time">{{feedTimerDisplay}}</text>
+    </view>
+    <view class="timer-actions">
+      <view class="timer-btn switch-btn" bindtap="switchFeedSide">
+        <text>换边</text>
+      </view>
+      <view class="timer-btn stop-btn" bindtap="stopFeed">
+        <text>结束</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 睡眠计时器 -->
+  <view class="timer-card sleep-timer {{sleepRunning ? '' : 'hidden'}}">
+    <view class="timer-header">
+      <text class="timer-icon">😴</text>
+      <text class="timer-title">睡眠中</text>
+    </view>
+    <view class="timer-display pulse">
+      <text class="timer-time">{{sleepTimerDisplay}}</text>
+    </view>
+    <view class="timer-actions">
+      <view class="timer-btn stop-btn" bindtap="stopSleep">
+        <text>结束</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="actions">
+    <view class="action-btn feed-btn {{feedRunning || sleepRunning ? 'disabled' : ''}}"
+          bindtap="handleFeed">
+      <text class="action-icon">🍼</text>
+      <text class="action-label">喂奶</text>
+    </view>
+    <view class="action-btn sleep-btn {{feedRunning || sleepRunning ? 'disabled' : ''}}"
+          bindtap="handleSleep">
+      <text class="action-icon">😴</text>
+      <text class="action-label">睡眠</text>
+    </view>
+    <view class="action-btn diaper-btn {{sleepRunning ? 'disabled' : ''}}"
+          bindtap="handleDiaper">
+      <text class="action-icon">👶</text>
+      <text class="action-label">尿布</text>
+    </view>
+    <view class="action-btn more-btn"
+          bindtap="handleMore">
+      <text class="action-icon">⋯</text>
+      <text class="action-label">更多</text>
+    </view>
+  </view>
+
+  <!-- 统计卡片 -->
+  <view class="stats">
+    <view class="stat-card">
+      <text class="stat-value text-feed">{{stats.feedCount}}</text>
+      <text class="stat-label">喂奶次数</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-value text-feed">{{stats.feedDuration}}</text>
+      <text class="stat-label">喂奶时长</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-value text-sleep">{{stats.sleepDuration}}</text>
+      <text class="stat-label">睡眠时长</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-value text-poop">{{stats.diaperCount}}</text>
+      <text class="stat-label">换尿布</text>
+    </view>
+  </view>
+
+  <!-- 上次喂奶提示 -->
+  <view class="last-feed" wx:if="{{lastFeed}}" bindtap="goToHistory">
+    <text class="last-feed-label">上次喂奶</text>
+    <text class="last-feed-time">{{lastFeed.timeAgo}}</text>
+    <text class="last-feed-detail">{{lastFeed.detail}}</text>
+  </view>
+
+  <!-- 时间线 -->
+  <view class="timeline">
+    <view class="timeline-header">
+      <text class="timeline-title">今日记录</text>
+      <text class="timeline-count">{{records.length}} 条</text>
+    </view>
+
+    <view class="timeline-list" wx:if="{{records.length > 0}}">
+      <view class="timeline-item" wx:for="{{records}}" wx:key="id">
+        <view class="timeline-dot {{item.type}}"></view>
+        <view class="timeline-content">
+          <view class="timeline-main">
+            <text class="timeline-icon">{{item.icon}}</text>
+            <text class="timeline-title">{{item.title}}</text>
+            <text class="timeline-time">{{item.time}}</text>
+          </view>
+          <text class="timeline-detail">{{item.detail}}</text>
+        </view>
+        <view class="timeline-delete" catchtap="deleteRecord" data-id="{{item.id}}">
+          <text>×</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:else>
+      <text class="icon">📝</text>
+      <text class="text">暂无记录</text>
+    </view>
+  </view>
+</view>
+
+<!-- 配方奶弹窗 -->
+<view class="modal-overlay {{showFormulaModal ? '' : 'hidden'}}" bindtap="hideFormulaModal">
+  <view class="modal-content" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">配方奶</text>
+    </view>
+    <view class="modal-body">
+      <text class="modal-label">请输入奶量（ml）</text>
+      <input class="modal-input" type="number" placeholder="如：60" value="{{formulaAmount}}"
+             bindinput="onFormulaInput" focus="{{showFormulaModal}}" />
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn cancel" bindtap="hideFormulaModal">取消</view>
+      <view class="modal-btn confirm" bindtap="confirmFormula">确定</view>
+    </view>
+  </view>
+</view>
+
+<!-- 尿布弹窗 -->
+<view class="modal-overlay {{showDiaperModal ? '' : 'hidden'}}" bindtap="hideDiaperModal">
+  <view class="modal-content" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">尿布记录</text>
+    </view>
+    <view class="modal-body">
+      <view class="diaper-options">
+        <view class="diaper-option {{diaperType === 'pee' ? 'active' : ''}}"
+              bindtap="selectDiaperType" data-type="pee">
+          <text class="diaper-icon">💧</text>
+          <text class="diaper-label">小便</text>
+        </view>
+        <view class="diaper-option {{diaperType === 'poop' ? 'active' : ''}}"
+              bindtap="selectDiaperType" data-type="poop">
+          <text class="diaper-icon">💩</text>
+          <text class="diaper-label">大便</text>
+        </view>
+        <view class="diaper-option {{diaperType === 'both' ? 'active' : ''}}"
+              bindtap="selectDiaperType" data-type="both">
+          <text class="diaper-icon">💩💧</text>
+          <text class="diaper-label">混合</text>
+        </view>
+      </view>
+
+      <!-- 大便颜色选择 -->
+      <view class="poop-options" wx:if="{{diaperType === 'poop' || diaperType === 'both'}}">
+        <text class="option-label">大便颜色</text>
+        <view class="color-options">
+          <view class="color-option {{poopColor === '黄色' ? 'active' : ''}}"
+                bindtap="selectPoopColor" data-color="黄色">
+            <view class="color-dot yellow"></view>
+            <text>黄色</text>
+          </view>
+          <view class="color-option {{poopColor === '绿色' ? 'active' : ''}}"
+                bindtap="selectPoopColor" data-color="绿色">
+            <view class="color-dot green"></view>
+            <text>绿色</text>
+          </view>
+          <view class="color-option {{poopColor === '棕色' ? 'active' : ''}}"
+                bindtap="selectPoopColor" data-color="棕色">
+            <view class="color-dot brown"></view>
+            <text>棕色</text>
+          </view>
+          <view class="color-option {{poopColor === '黑色' ? 'active' : ''}}"
+                bindtap="selectPoopColor" data-color="黑色">
+            <view class="color-dot black"></view>
+            <text>黑色</text>
+          </view>
+        </view>
+
+        <text class="option-label">大便性状</text>
+        <view class="consistency-options">
+          <view class="consistency-option {{poopConsistency === '水样' ? 'active' : ''}}"
+                bindtap="selectPoopConsistency" data-consistency="水样">水样</view>
+          <view class="consistency-option {{poopConsistency === '稀软' ? 'active' : ''}}"
+                bindtap="selectPoopConsistency" data-consistency="稀软">稀软</view>
+          <view class="consistency-option {{poopConsistency === '软' ? 'active' : ''}}"
+                bindtap="selectPoopConsistency" data-consistency="软">软</view>
+          <view class="consistency-option {{poopConsistency === '偏硬' ? 'active' : ''}}"
+                bindtap="selectPoopConsistency" data-consistency="偏硬">偏硬</view>
+        </view>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn cancel" bindtap="hideDiaperModal">取消</view>
+      <view class="modal-btn confirm" bindtap="confirmDiaper">确定</view>
+    </view>
+  </view>
+</view>
+
+<!-- 快速选择弹窗（短时喂奶） -->
+<view class="modal-overlay {{showQuickFeedModal ? '' : 'hidden'}}" bindtap="hideQuickFeedModal">
+  <view class="modal-content" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">喂奶时间较短</text>
+    </view>
+    <view class="modal-body">
+      <text class="modal-hint">请选择喂养类型</text>
+      <view class="quick-options">
+        <view class="quick-option" bindtap="quickFeedBreast">
+          <text class="quick-icon">🍼</text>
+          <text class="quick-label">母乳</text>
+          <text class="quick-desc">{{feedTimerDisplay}}</text>
+        </view>
+        <view class="quick-option" bindtap="quickFeedFormula">
+          <text class="quick-icon">🥛</text>
+          <text class="quick-label">配方奶</text>
+          <text class="quick-desc">输入奶量</text>
+        </view>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn cancel" bindtap="hideQuickFeedModal">取消</view>
+    </view>
+  </view>
+</view>
+
+<!-- Toast 提示 -->
+<view class="toast {{showToast ? '' : 'hidden'}}">
+  <text>{{toastMessage}}</text>
+  <text class="toast-undo" wx:if="{{undoRid}}" bindtap="undoRecord">撤销</text>
+</view>

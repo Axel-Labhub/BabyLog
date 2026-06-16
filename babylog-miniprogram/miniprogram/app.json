@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/baby/baby",
+    "pages/settings/settings",
+    "pages/history/history"
+  ],
+  "window": {
+    "navigationBarTitleText": "宝宝记录",
+    "navigationBarBackgroundColor": "#FAFBFB",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FAFBFB",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#888888",
+    "selectedColor": "#FF9500",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "记录",
+        "iconPath": "assets/icons/record.png",
+        "selectedIconPath": "assets/icons/record-active.png"
+      },
+      {
+        "pagePath": "pages/history/history",
+        "text": "历史",
+        "iconPath": "assets/icons/history.png",
+        "selectedIconPath": "assets/icons/history-active.png"
+      },
+      {
+        "pagePath": "pages/baby/baby",
+        "text": "宝宝",
+        "iconPath": "assets/icons/baby.png",
+        "selectedIconPath": "assets/icons/baby-active.png"
+      },
+      {
+        "pagePath": "pages/settings/settings",
+        "text": "设置",
+        "iconPath": "assets/icons/settings.png",
+        "selectedIconPath": "assets/icons/settings-active.png"
+      }
+    ]
+  },
+  "cloud": true,
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
