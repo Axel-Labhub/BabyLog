@@ -10,7 +10,7 @@ App({
     // 初始化云开发
     if (wx.cloud) {
       wx.cloud.init({
-        env: '', // 在云开发控制台获取环境 ID 后填写
+        env: 'babylog-d0gj4uu2hdc688ae3',
         traceUser: true
       })
     }
