@@ -1,0 +1,51 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆 -->
+  <circle cx="256" cy="256" r="256" fill="#FFE4EC"/>
+  
+  <!-- 主色调背景 -->
+  <circle cx="256" cy="256" r="200" fill="#FFB6C1"/>
+  
+  <!-- 宝宝脸部轮廓 -->
+  <circle cx="256" cy="260" r="140" fill="#FFE4C4"/>
+  
+  <!-- 头发 -->
+  <ellipse cx="256" cy="150" rx="80" ry="40" fill="#8B4513"/>
+  <circle cx="200" cy="180" r="30" fill="#8B4513"/>
+  <circle cx="312" cy="180" r="30" fill="#8B4513"/>
+  <circle cx="256" cy="140" r="35" fill="#8B4513"/>
+  
+  <!-- 眉毛 -->
+  <path d="M200 210 Q220 200 240 210" stroke="#8B4513" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M272 210 Q292 200 312 210" stroke="#8B4513" stroke-width="4" fill="none" stroke-linecap="round"/>
+  
+  <!-- 眼睛 - 左眼 -->
+  <circle cx="220" cy="240" r="20" fill="white"/>
+  <circle cx="225" cy="235" r="12" fill="#2C1810"/>
+  <circle cx="228" cy="232" r="4" fill="white"/>
+  
+  <!-- 眼睛 - 右眼 -->
+  <circle cx="292" cy="240" r="20" fill="white"/>
+  <circle cx="297" cy="235" r="12" fill="#2C1810"/>
+  <circle cx="300" cy="232" r="4" fill="white"/>
+  
+  <!-- 鼻子 -->
+  <circle cx="256" cy="270" r="8" fill="#FFB6C1"/>
+  
+  <!-- 嘴巴 - 微笑 -->
+  <path d="M230 300 Q256 330 282 300" stroke="#E57373" stroke-width="6" fill="none" stroke-linecap="round"/>
+  
+  <!-- 红脸蛋 - 左 -->
+  <circle cx="180" cy="280" r="25" fill="#FFB6C1" opacity="0.6"/>
+  
+  <!-- 红脸蛋 - 右 -->
+  <circle cx="332" cy="280" r="25" fill="#FFB6C1" opacity="0.6"/>
+  
+  <!-- 头顶装饰 - 小爱心 -->
+  <path d="M256 100 C236 80 200 100 256 130 C312 100 276 80 256 100" fill="#FF69B4"/>
+  
+  <!-- 小手 - 左手 -->
+  <ellipse cx="140" cy="320" rx="25" ry="30" fill="#FFE4C4" transform="rotate(-20 140 320)"/>
+  
+  <!-- 小手 - 右手 -->
+  <ellipse cx="372" cy="320" rx="25" ry="30" fill="#FFE4C4" transform="rotate(20 372 320)"/>
+</svg>

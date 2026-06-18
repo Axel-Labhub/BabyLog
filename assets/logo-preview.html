@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>萌宝记小程序头像预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #FFE4EC 0%, #FFF0F5 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        
+        h1 {
+            color: #FF69B4;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 32px;
+        }
+        
+        .logo-container {
+            background: white;
+            border-radius: 40px;
+            padding: 60px;
+            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.3);
+            margin-bottom: 40px;
+        }
+        
+        .logo-container img {
+            width: 300px;
+            height: 300px;
+            display: block;
+        }
+        
+        .info {
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .info h2 {
+            color: #FF69B4;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        
+        .info p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        
+        .info ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .info li {
+            color: #666;
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .info li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #FF69B4;
+        }
+        
+        .steps {
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .steps h2 {
+            color: #FF69B4;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .step-desc {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .note {
+            background: #FFF0F5;
+            border-left: 4px solid #FF69B4;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .note p {
+            color: #FF69B4;
+            font-size: 14px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+            transition: all 0.3s;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <h1>🎀 萌宝记小程序头像</h1>
+    
+    <div class="logo-container">
+        <img src="mengbaoji-logo.svg" alt="萌宝记小程序头像">
+    </div>
+    
+    <a href="mengbaoji-logo.svg" download="萌宝记小程序头像.svg" class="download-btn">
+        📥 下载 SVG 图片
+    </a>
+    
+    <div class="info">
+        <h2>💡 设计说明</h2>
+        <p>这是一款为「萌宝记」宝宝成长记录小程序设计的头像，具有以下特点：</p>
+        <ul>
+            <li><strong>可爱卡通风格</strong> - 温馨的宝宝笑脸，适合母婴类应用</li>
+            <li><strong>柔和配色</strong> - 粉色系主色调，传递温暖和关爱</li>
+            <li><strong>简洁清晰</strong> - 适合小尺寸显示，辨识度高</li>
+            <li><strong>专业设计</strong> - 矢量图形，可无损缩放到任意尺寸</li>
+        </ul>
+        
+        <div class="note">
+            <p>💡 <strong>提示：</strong>右击图片可以选择"图片另存为"保存到本地，或者直接点击下方下载按钮。</p>
+        </div>
+    </div>
+    
+    <div class="steps">
+        <h2>📋 上传步骤</h2>
+        
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <div class="step-title">保存图片</div>
+                <div class="step-desc">右击上方图片，选择"图片另存为"，保存到本地</div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <div class="step-title">访问微信公众平台</div>
+                <div class="step-desc">打开 <a href="https://mp.weixin.qq.com" target="_blank">mp.weixin.qq.com</a>，登录小程序账号</div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <div class="step-title">进入基本设置</div>
+                <div class="step-desc">点击「设置」→「基本设置」</div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <div class="step-title">更换头像</div>
+                <div class="step-desc">点击「更换头像」按钮，上传保存的图片</div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <div class="step-title">完成设置</div>
+                <div class="step-desc">裁剪并确认头像，保存即可</div>
+            </div>
+        </div>
+        
+        <div class="note">
+            <p>⚠️ <strong>注意：</strong>图片会被自动裁剪为圆形，请确保重要元素在中心位置。建议尺寸 144×144 像素，格式 PNG 或 JPEG，大小不超过 2MB。</p>
+        </div>
+    </div>
+</body>
+</html>
