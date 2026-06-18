@@ -1,0 +1,140 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 宇宙深空背景 -->
+    <radialGradient id="bgCosmic" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="40%" stop-color="#1b263b"/>
+      <stop offset="100%" stop-color="#0a0a0f"/>
+    </radialGradient>
+    <!-- 科技青蓝光渐变 -->
+    <linearGradient id="techCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00fff2"/>
+      <stop offset="50%" stop-color="#00b4d8"/>
+      <stop offset="100%" stop-color="#0077b6"/>
+    </linearGradient>
+    <!-- 能量紫渐变 -->
+    <linearGradient id="energyPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9d4edd"/>
+      <stop offset="100%" stop-color="#3c096c"/>
+    </linearGradient>
+    <!-- 金色点缀 -->
+    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd700"/>
+      <stop offset="100%" stop-color="#ff9500"/>
+    </linearGradient>
+    <!-- 强发光效果 -->
+    <filter id="glowIntense" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- 中等发光 -->
+    <filter id="glowMedium" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景圆 -->
+  <circle cx="256" cy="256" r="256" fill="url(#bgCosmic)"/>
+
+  <!-- 星空粒子 -->
+  <g fill="#ffffff">
+    <circle cx="50" cy="80" r="1.5" opacity="0.8"/>
+    <circle cx="120" cy="45" r="1" opacity="0.6"/>
+    <circle cx="200" cy="60" r="1.2" opacity="0.7"/>
+    <circle cx="320" cy="40" r="1" opacity="0.5"/>
+    <circle cx="400" cy="75" r="1.5" opacity="0.8"/>
+    <circle cx="460" cy="55" r="1" opacity="0.6"/>
+    <circle cx="70" cy="450" r="1.2" opacity="0.7"/>
+    <circle cx="150" cy="480" r="1" opacity="0.5"/>
+    <circle cx="350" cy="470" r="1.5" opacity="0.6"/>
+    <circle cx="440" cy="460" r="1" opacity="0.8"/>
+    <circle cx="30" cy="200" r="1" opacity="0.5"/>
+    <circle cx="480" cy="300" r="1.2" opacity="0.6"/>
+  </g>
+
+  <!-- 外圈光环 -->
+  <circle cx="256" cy="256" r="230" stroke="url(#techCyan)" stroke-width="3" fill="none" filter="url(#glowIntense)" opacity="0.8"/>
+  <circle cx="256" cy="256" r="210" stroke="url(#energyPurple)" stroke-width="2" fill="none" filter="url(#glowMedium)" opacity="0.6"/>
+  <circle cx="256" cy="256" r="190" stroke="#00fff2" stroke-width="1" fill="none" opacity="0.3" stroke-dasharray="8 4"/>
+
+  <!-- 六边形科技框架 -->
+  <g stroke="url(#techCyan)" stroke-width="2" fill="none" filter="url(#glowMedium)">
+    <polygon points="256,100 380,156 380,356 256,412 132,356 132,156" opacity="0.7"/>
+    <polygon points="256,130 355,175 355,337 256,382 157,337 157,175" opacity="0.5"/>
+  </g>
+
+  <!-- 左侧数据流 -->
+  <g stroke="url(#techCyan)" stroke-width="1.5" fill="none" opacity="0.8">
+    <path d="M60 200 L100 200 L120 180 L160 180"/>
+    <path d="M60 240 L90 240 L110 220 L150 220 L170 240"/>
+    <path d="M60 280 L100 280 L120 300 L160 300"/>
+    <circle cx="60" cy="200" r="3" fill="#00fff2"/>
+    <circle cx="60" cy="240" r="3" fill="#00fff2"/>
+    <circle cx="60" cy="280" r="3" fill="#00fff2"/>
+    <circle cx="160" cy="180" r="3" fill="#00fff2"/>
+    <circle cx="170" cy="240" r="3" fill="#00fff2"/>
+    <circle cx="160" cy="300" r="3" fill="#00fff2"/>
+  </g>
+
+  <!-- 右侧数据流 -->
+  <g stroke="url(#energyPurple)" stroke-width="1.5" fill="none" opacity="0.8">
+    <path d="M452 200 L412 200 L392 180 L352 180"/>
+    <path d="M452 240 L422 240 L402 220 L362 220 L342 240"/>
+    <path d="M452 280 L412 280 L392 300 L352 300"/>
+    <circle cx="452" cy="200" r="3" fill="#9d4edd"/>
+    <circle cx="452" cy="240" r="3" fill="#9d4edd"/>
+    <circle cx="452" cy="280" r="3" fill="#9d4edd"/>
+    <circle cx="352" cy="180" r="3" fill="#9d4edd"/>
+    <circle cx="342" cy="240" r="3" fill="#9d4edd"/>
+    <circle cx="352" cy="300" r="3" fill="#9d4edd"/>
+  </g>
+
+  <!-- 中央指纹/数据环 -->
+  <g fill="none" stroke="url(#techCyan)" stroke-width="2" filter="url(#glowIntense)">
+    <circle cx="256" cy="256" r="70" opacity="0.9"/>
+    <circle cx="256" cy="256" r="55" opacity="0.7"/>
+    <circle cx="256" cy="256" r="40" opacity="0.5"/>
+    <circle cx="256" cy="256" r="25" opacity="0.3"/>
+  </g>
+
+  <!-- 中央核心 -->
+  <circle cx="256" cy="256" r="15" fill="url(#goldAccent)" filter="url(#glowIntense)"/>
+  <circle cx="256" cy="256" r="8" fill="#ffffff"/>
+
+  <!-- 时间刻度装饰 -->
+  <g stroke="#00fff2" stroke-width="2" opacity="0.6">
+    <line x1="256" y1="95" x2="256" y2="110"/>
+    <line x1="256" y1="402" x2="256" y2="417"/>
+    <line x1="95" y1="256" x2="110" y2="256"/>
+    <line x1="402" y1="256" x2="417" y2="256"/>
+  </g>
+
+  <!-- 装饰性三角标记 -->
+  <g fill="url(#goldAccent)" filter="url(#glowMedium)">
+    <polygon points="256,75 266,90 246,90"/>
+    <polygon points="256,437 246,422 266,422"/>
+  </g>
+
+  <!-- 底部信息条 -->
+  <rect x="156" y="440" width="200" height="3" rx="1.5" fill="url(#energyPurple)" opacity="0.8"/>
+  
+  <!-- 角落装饰 -->
+  <g opacity="0.4">
+    <rect x="45" y="45" width="20" height="2" fill="#00fff2"/>
+    <rect x="45" y="45" width="2" height="20" fill="#00fff2"/>
+    <rect x="447" y="45" width="20" height="2" fill="#9d4edd"/>
+    <rect x="465" y="45" width="2" height="20" fill="#9d4edd"/>
+    <rect x="45" y="465" width="20" height="2" fill="#9d4edd"/>
+    <rect x="45" y="447" width="2" height="20" fill="#9d4edd"/>
+    <rect x="447" y="465" width="20" height="2" fill="#00fff2"/>
+    <rect x="465" y="447" width="2" height="20" fill="#00fff2"/>
+  </g>
+</svg>
