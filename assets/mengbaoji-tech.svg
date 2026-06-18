@@ -1,0 +1,144 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 深邃科技背景渐变 -->
+    <radialGradient id="bgRadial" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="50%" stop-color="#16213e"/>
+      <stop offset="100%" stop-color="#0f0f23"/>
+    </radialGradient>
+    <!-- 科技蓝光渐变 -->
+    <linearGradient id="neonBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f5ff"/>
+      <stop offset="50%" stop-color="#0080ff"/>
+      <stop offset="100%" stop-color="#00f5ff"/>
+    </linearGradient>
+    <!-- 紫红渐变 -->
+    <linearGradient id="neonPink" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff00ff"/>
+      <stop offset="100%" stop-color="#8000ff"/>
+    </linearGradient>
+    <!-- 发光效果 -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glowStrong" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="15" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 深色背景 -->
+  <circle cx="256" cy="256" r="256" fill="url(#bgRadial)"/>
+
+  <!-- 科技网格线 -->
+  <g stroke="#00f5ff" stroke-width="0.5" opacity="0.15">
+    <line x1="0" y1="128" x2="512" y2="128"/>
+    <line x1="0" y1="256" x2="512" y2="256"/>
+    <line x1="0" y1="384" x2="512" y2="384"/>
+    <line x1="128" y1="0" x2="128" y2="512"/>
+    <line x1="256" y1="0" x2="256" y2="512"/>
+    <line x1="384" y1="0" x2="384" y2="512"/>
+  </g>
+
+  <!-- 外圈光环 - 发光效果 -->
+  <circle cx="256" cy="256" r="220" stroke="url(#neonBlue)" stroke-width="4" fill="none" filter="url(#glowStrong)" opacity="0.9"/>
+  <circle cx="256" cy="256" r="200" stroke="url(#neonPink)" stroke-width="2" fill="none" filter="url(#glow)" opacity="0.7"/>
+  <circle cx="256" cy="256" r="185" stroke="#00f5ff" stroke-width="1" fill="none" opacity="0.5"/>
+
+  <!-- 电路板轨道线 - 顶部 -->
+  <g stroke="url(#neonBlue)" stroke-width="2" fill="none" filter="url(#glow)">
+    <path d="M80 180 L120 180 L140 160 L180 160 L200 180 L230 180"/>
+    <path d="M282 180 L312 180 L332 160 L372 160 L392 180 L432 180"/>
+    <circle cx="80" cy="180" r="4" fill="#00f5ff"/>
+    <circle cx="432" cy="180" r="4" fill="#00f5ff"/>
+  </g>
+
+  <!-- 左侧电路 -->
+  <g stroke="url(#neonBlue)" stroke-width="2" fill="none" filter="url(#glow)">
+    <path d="M80 256 L110 256 L130 236 L130 200 L150 180"/>
+    <circle cx="80" cy="256" r="4" fill="#00f5ff"/>
+    <circle cx="150" cy="180" r="4" fill="#00f5ff"/>
+  </g>
+
+  <!-- 右侧电路 -->
+  <g stroke="url(#neonPink)" stroke-width="2" fill="none" filter="url(#glow)">
+    <path d="M432 256 L402 256 L382 276 L382 312 L362 332"/>
+    <circle cx="432" cy="256" r="4" fill="#ff00ff"/>
+    <circle cx="362" cy="332" r="4" fill="#ff00ff"/>
+  </g>
+
+  <!-- 底部电路 -->
+  <g stroke="url(#neonPink)" stroke-width="2" fill="none" filter="url(#glow)">
+    <path d="M150 332 L180 332 L200 352 L240 352 L260 332 L312 332 L332 352 L372 352"/>
+    <circle cx="150" cy="332" r="4" fill="#ff00ff"/>
+    <circle cx="372" cy="352" r="4" fill="#ff00ff"/>
+  </g>
+
+  <!-- 中央芯片区域 -->
+  <rect x="186" y="186" width="140" height="140" rx="20" fill="#0a0a1a" stroke="url(#neonBlue)" stroke-width="2" filter="url(#glow)"/>
+
+  <!-- 芯片内部电路 -->
+  <g stroke="#00f5ff" stroke-width="1.5" opacity="0.6">
+    <line x1="206" y1="256" x2="306" y2="256"/>
+    <line x1="256" y1="206" x2="256" y2="306"/>
+    <rect x="226" y="226" width="60" height="60" rx="5" fill="none"/>
+  </g>
+
+  <!-- 芯片引脚 -->
+  <g fill="url(#neonBlue)">
+    <rect x="216" y="175" width="8" height="16" rx="2"/>
+    <rect x="244" y="175" width="8" height="16" rx="2"/>
+    <rect x="272" y="175" width="8" height="16" rx="2"/>
+    <rect x="216" y="321" width="8" height="16" rx="2"/>
+    <rect x="244" y="321" width="8" height="16" rx="2"/>
+    <rect x="272" y="321" width="8" height="16" rx="2"/>
+    <rect x="175" y="226" width="16" height="8" rx="2"/>
+    <rect x="175" y="256" width="16" height="8" rx="2"/>
+    <rect x="175" y="286" width="16" height="8" rx="2"/>
+    <rect x="321" y="226" width="16" height="8" rx="2"/>
+    <rect x="321" y="256" width="16" height="8" rx="2"/>
+    <rect x="321" y="286" width="16" height="8" rx="2"/>
+  </g>
+
+  <!-- 中央数据符号 -->
+  <text x="256" y="275" text-anchor="middle" font-size="48" font-weight="bold" fill="url(#neonBlue)" filter="url(#glow)">0</text>
+
+  <!-- 科技粒子效果 -->
+  <g fill="#00f5ff" filter="url(#glow)">
+    <circle cx="120" cy="120" r="3" opacity="0.8"/>
+    <circle cx="392" cy="120" r="3" opacity="0.6"/>
+    <circle cx="100" cy="392" r="3" opacity="0.7"/>
+    <circle cx="412" cy="392" r="3" opacity="0.5"/>
+    <circle cx="180" cy="90" r="2" opacity="0.5"/>
+    <circle cx="332" cy="422" r="2" opacity="0.6"/>
+    <circle cx="422" cy="180" r="2" opacity="0.4"/>
+    <circle cx="90" cy="332" r="2" opacity="0.5"/>
+  </g>
+
+  <!-- 紫红粒子 -->
+  <g fill="#ff00ff" filter="url(#glow)">
+    <circle cx="160" cy="400" r="2.5" opacity="0.7"/>
+    <circle cx="352" cy="100" r="2.5" opacity="0.6"/>
+    <circle cx="420" cy="420" r="2" opacity="0.5"/>
+    <circle cx="92" cy="92" r="2" opacity="0.4"/>
+  </g>
+
+  <!-- 顶部装饰条 -->
+  <rect x="216" y="70" width="80" height="4" rx="2" fill="url(#neonBlue)" filter="url(#glow)"/>
+  <circle cx="256" cy="60" r="6" fill="url(#neonPink)" filter="url(#glow)"/>
+
+  <!-- 底部装饰条 -->
+  <rect x="216" y="438" width="80" height="4" rx="2" fill="url(#neonPink)" filter="url(#glow)"/>
+  <circle cx="256" cy="452" r="6" fill="url(#neonBlue)" filter="url(#glow)"/>
+
+  <!-- 装饰性小方块 -->
+  <rect x="70" y="70" width="12" height="12" fill="none" stroke="#00f5ff" stroke-width="1.5" opacity="0.5" transform="rotate(45 76 76)"/>
+  <rect x="430" y="430" width="12" height="12" fill="none" stroke="#ff00ff" stroke-width="1.5" opacity="0.5" transform="rotate(45 436 436)"/>
+</svg>
