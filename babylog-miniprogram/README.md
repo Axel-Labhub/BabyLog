@@ -1,15 +1,15 @@
-# BabyLog - 宝宝成长记录小程序
+# 成长印记 - 宝宝成长记录小程序
 
 <div align="center">
 
-![BabyLog Logo](https://img.shields.io/badge/BabyLog-宝宝记录-FF9500?style=for-the-badge)
+![成长印记 Logo](https://img.shields.io/badge/成长印记-记录每一刻珍贵时光-00fff2?style=for-the-badge)
 ![WeChat](https://img.shields.io/badge/微信小程序-✓-07C160?style=for-the-badge)
 ![CloudBase](https://img.shields.io/badge/云开发-腾讯云-007AFF?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)
 
 **一款简洁美观的宝宝日常记录工具，支持喂奶、睡眠、尿布、体温、用药等多种记录类型**
 
-[功能介绍](#功能介绍) · [快速开始](#快速开始) · [部署指南](#部署指南) · [项目结构](#项目结构) · [更新日志](https://github.com/Axel-Labhub/BabyLog/releases)
+[功能介绍](#功能介绍) · [快速开始](#快速开始) · [部署指南](#部署指南) · [项目结构](#项目结构)
 
 </div>
 
@@ -67,8 +67,8 @@
 #### 1. 克隆项目
 
 ```bash
-git clone https://github.com/Axel-Labhub/BabyLog.git
-cd BabyLog
+git clone <你的项目地址>
+cd 成长印记
 ```
 
 #### 2. 配置云开发环境
@@ -129,7 +129,7 @@ wx.cloud.init({
 ## 📁 项目结构
 
 ```
-BabyLog/
+成长印记/
 ├── miniprogram/              # 小程序前端代码
 │   ├── app.js               # 应用入口，全局状态管理
 │   ├── app.json             # 应用配置，页面路由，tabBar
@@ -249,7 +249,7 @@ npm install -g @cloudbase/cli
 tcb login
 
 # 部署云函数
-cd babylog-miniprogram
+cd 成长印记
 tcb fn deploy getQRCode --env-id <your-env-id> --dir cloudfunctions/getQRCode
 ```
 

@@ -38,8 +38,8 @@
     "minifyWXML": true
   },
   "appid": "wx224dfe28fd9f332c",
-  "projectname": "babylog",
-  "description": "宝宝记录 - 新生儿日常记录工具",
+  "projectname": "成长印记",
+  "description": "成长印记 - 记录每一刻珍贵时光",
   "cloudfunctionTemplateRoot": "",
   "condition": {},
   "editorSetting": {
